@@ -1,40 +1,20 @@
-upstream pro_backend {
-    server 10.1.1.1:8080;
-}
-
-upstream pro_ssl_backend {
-    server 10.1.1.1:8080;
-}
-
-upstream uat_backend {
-    server 10.1.1.1:8081;
-}
-
-upstream uat_ssl_backend {
-    server 10.1.1.1:8081;
-}
-
 server {
     listen 80;
-        server_name www.sample.net;
+	server_name www.example.net;
 
 
     location / {
-        proxy_pass http://pro_backend/;
-        access_log /var/log/nginx/pro_access.log;
-        error_log /var/log/nginx/pro_error.log;
+        proxy_pass http://web1;
     }
 
     location /uat/ {
-        proxy_pass http://uat_backend/;
-        access_log /var/log/nginx/uat_access.log;
-        error_log /var/log/nginx/uat_error.log;
+        proxy_pass http://web2/;
     }
 }
 
 server {
     listen 443 ssl;
-    server_name www.sample.net;
+    server_name www.example.net;
 
 
     ssl_certificate      /etc/nginx/conf.d/server.crt;
@@ -47,14 +27,10 @@ server {
     ssl_prefer_server_ciphers on;
 
     location / {
-        proxy_pass http://pro_ssl_backend/;
-        access_log /var/log/nginx/pro_ssl_access.log;
-        error_log /var/log/nginx/pro_ssl_error.log;
+        proxy_pass http://web1;
     }
 
     location /uat/ {
-        proxy_pass http://uat_ssl_backend/;
-        access_log /var/log/nginx/uat_ssl_access.log;
-        error_log /var/log/nginx/uat_ssl_error.log;
+        proxy_pass http://web2/;
     }
 }

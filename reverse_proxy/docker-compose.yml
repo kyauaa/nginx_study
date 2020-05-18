@@ -22,3 +22,4 @@ services:
       - "443:443"
     volumes:
        - /docker/nginx/nginx:/etc/nginx/conf.d
+       - /docker/nginx/log:/var/log/nginx
